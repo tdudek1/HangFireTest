@@ -1,12 +1,24 @@
-﻿using System;
+﻿using Hangfire;
+using Scheduler.Core;
+using System;
 
 namespace Scheduler
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            GlobalConfiguration.Configuration.UseSqlServerStorage("Server=server;Database=scheduler;User Id=sa;Password=DockerSQL1!; ");
+
+            Console.WriteLine("Running...");
+
+            var w = new BackgroundJobServer();
+
+            RecurringJob.AddOrUpdate("myjob", () => Jobs.MyJob(), Cron.Minutely);
+
+            Console.ReadKey();
+            w.Dispose();
         }
+        
     }
 }
