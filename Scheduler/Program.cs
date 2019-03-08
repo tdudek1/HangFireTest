@@ -8,7 +8,8 @@ namespace Scheduler
     {
         private static void Main(string[] args)
         {
-            GlobalConfiguration.Configuration.UseSqlServerStorage("Server=server;Database=scheduler;User Id=sa;Password=DockerSQL1!; ");
+            GlobalConfiguration.Configuration.UseSqlServerStorage("Server=localhost;Database=scheduler;Trusted_Connection=True;");
+			GlobalConfiguration.Configuration.UseColouredConsoleLogProvider();
 
             Console.WriteLine("Running...");
 
@@ -16,7 +17,7 @@ namespace Scheduler
 
             RecurringJob.AddOrUpdate("myjob", () => Jobs.MyJob(), Cron.Minutely);
 
-            Console.ReadKey();
+            Console.ReadLine();
             w.Dispose();
         }
         
